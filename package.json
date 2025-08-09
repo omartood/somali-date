@@ -1,13 +1,29 @@
 {
   "name": "somali-date",
-  "version": "0.2.0",
-  "description": "Format dates and times in pure Somali (months, days, 24h time). Includes a CLI.",
+  "version": "0.2.2",
+  "description": "Comprehensive Somali date/time library with Gregorian, Hijri, and traditional calendars. Includes CLI, prayer times, holidays, and business day calculations.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "bin": { "somodate": "src/cli.js" },
-  "files": ["src", "README.md", "LICENSE"],
-  "keywords": ["somali", "date", "time", "locale", "format"],
+  "files": ["src", "docs", "README.md", "LICENSE"],
+  "keywords": [
+    "somali", "date", "time", "locale", "format", "hijri", "islamic", 
+    "calendar", "prayer-times", "holidays", "business-days", "traditional",
+    "seasons", "numerals", "somalia", "i18n", "localization", "cli"
+  ],
+  "author": {
+    "name": "Omar Jibril",
+    "url": "https://github.com/omartood"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omartood/somali-date.git"
+  },
+  "homepage": "https://github.com/omartood/somali-date#readme",
+  "bugs": {
+    "url": "https://github.com/omartood/somali-date/issues"
+  },
   "engines": { "node": ">=14" },
   "scripts": {
     "test": "vitest run",
