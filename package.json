@@ -1,6 +1,6 @@
 {
   "name": "somali-date",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Format dates and times in pure Somali (months, days, 24h time). Includes a CLI.",
   "main": "src/index.js",
   "types": "src/index.d.ts",

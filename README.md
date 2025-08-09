@@ -1,13 +1,18 @@
 # somali-date
 
-A comprehensive JavaScript library for formatting dates and times in Somali language, supporting both Gregorian and Hijri (Islamic) calendars.
+A comprehensive JavaScript library for formatting dates and times in Somali language, supporting multiple calendar systems and cultural features.
 
 ## Features
 
-- 📅 **Dual Calendar Support**: Gregorian and Hijri calendars
-- 🌍 **Pure Somali Localization**: Authentic Somali month and weekday names
-- ⏰ **24-hour Time Format**: Standard time formatting
-- 📱 **CLI Tool**: Command-line interface for quick date formatting
+- 📅 **Multi-Calendar Support**: Gregorian, Hijri (Islamic), and traditional Somali calendars
+- 🌍 **Pure Somali Localization**: Authentic Somali month, weekday, and number names
+- ⏰ **24-hour Time Format**: Standard time formatting with prayer times
+- 🎭 **Traditional Seasons**: Somali seasonal calendar (Jilaal, Gu, Xagaa, Dayr)
+- 🔢 **Somali Numerals**: Convert numbers to Somali words
+- 🎉 **Holiday Detection**: Somali national and Islamic holidays
+- 💼 **Business Days**: Business day calculations respecting Somali work week
+- ⏳ **Duration & Age**: Format time periods and ages in Somali
+- 📱 **Comprehensive CLI**: Feature-rich command-line interface
 - 🔧 **Easy API**: Simple functions for common use cases
 - 📝 **TypeScript Support**: Full type definitions included
 - 🎯 **Flexible Options**: Customizable formatting options
@@ -145,6 +150,88 @@ formatRelativeSomali(yesterday);  // "shalay" (yesterday)
 formatRelativeSomali(tomorrow);   // "berri" (tomorrow)
 ```
 
+### New Advanced Features
+
+#### Traditional Somali Calendar & Seasons
+```javascript
+const { formatSomaliTraditional, getSomaliSeason } = require('somali-date');
+
+getSomaliSeason(new Date());                    // { season: "Xagaa", description: "Hot dry season" }
+formatSomaliTraditional(new Date());           // "Xagaa (Hot dry season)"
+formatSomaliTraditional(new Date(), { includeGregorian: true }); 
+// "9 Agoosto 2025 - Xagaa (Hot dry season)"
+```
+
+#### Somali Number Conversion
+```javascript
+const { numberToSomali, formatDateSomaliWithNumbers } = require('somali-date');
+
+numberToSomali(25);                            // "shan iyo labaatan"
+numberToSomali(100);                           // "boqol"
+formatDateSomaliWithNumbers(new Date(), { numerals: 'somali' });
+// "Sabti, sagaal Agoosto laba kun iyo shan iyo labaatan"
+```
+
+#### Duration & Age Formatting
+```javascript
+const { formatDurationSomali, formatAgeSomali } = require('somali-date');
+
+formatDurationSomali(3600000);                 // "saacad" (1 hour)
+formatDurationSomali(86400000 * 30);          // "30 maalmood" (30 days)
+formatAgeSomali('1990-01-01');                // "35 sannadood iyo 7 bilood"
+```
+
+#### Holiday Detection
+```javascript
+const { isHoliday, getHolidayName, getUpcomingHolidays } = require('somali-date');
+
+isHoliday('2025-06-26');                      // true (Independence Day)
+getHolidayName('2025-06-26');                 // "Maalinta Madaxbannida"
+getUpcomingHolidays(30);                      // Array of upcoming holidays
+```
+
+#### Business Day Calculations
+```javascript
+const { isBusinessDay, addBusinessDays } = require('somali-date');
+
+isBusinessDay(new Date());                     // true/false (Friday is not a business day)
+addBusinessDays(new Date(), 5);               // Add 5 business days (skip Fridays)
+```
+
+#### Enhanced Relative Dates
+```javascript
+const { formatRelativeSomaliDetailed } = require('somali-date');
+
+formatRelativeSomaliDetailed(new Date(), new Date(), { includeTime: true });
+// "hadda" (now) or "2 saacadood ka hor" (2 hours ago)
+```
+
+#### Prayer Times
+```javascript
+const { getPrayerTimesSomali } = require('somali-date');
+
+getPrayerTimesSomali(new Date());
+// { Subax: "05:30", Duhur: "12:15", Casar: "15:45", Maghrib: "18:30", Cisha: "19:45" }
+```
+
+#### Date Range Formatting
+```javascript
+const { formatDateRange } = require('somali-date');
+
+formatDateRange('2025-08-14', '2025-08-20');
+// "14 Agoosto 2025 - 20 Agoosto 2025"
+formatDateRange('2025-08-14', '2025-08-20', 'hijri');
+// Hijri date range
+```
+
+#### Calendar Conversion
+```javascript
+const { gregorianToHijri, hijriToGregorian } = require('somali-date');
+
+gregorianToHijri(new Date());                  // { hYear: 1447, hMonth: 2, hDay: 14 }
+hijriToGregorian(1447, 2, 14);                // Date object
+```
+
 ## CLI Usage
 
 Install globally for command-line access:
@@ -153,7 +240,7 @@ Install globally for command-line access:
 npm install -g somali-date
 ```
 
-### Commands
+### Basic Commands
 
 ```bash
 # Today's date
@@ -178,26 +265,68 @@ somodate time 2025-12-25T15:30:00Z # Specific time
 # Relative dates
 somodate relative                # "maanta" (today)
 somodate relative 2025-12-24     # Relative to today
-
-# Legacy commands (still supported)
-somodate hijri                   # Today in Hijri
-somodate both                    # Today in both calendars
 ```
 
-### Examples
+### Advanced CLI Commands
+
+```bash
+# Traditional Somali calendar
+somodate traditional             # Current season
+somodate season                  # Season info only
+
+# Somali numerals
+somodate numbers 25              # "shan iyo labaatan"
+somodate somali-numbers          # Today's date with Somali numerals
+
+# Duration and age
+somodate age 1990-01-01          # Calculate age
+somodate duration 3600000        # Format milliseconds as duration
+
+# Holidays and business days
+somodate holiday 2025-06-26      # Check if date is holiday
+somodate holidays 30             # Upcoming holidays in next 30 days
+somodate business-day            # Check if today is business day
+somodate add-business 2025-08-14 5 # Add 5 business days
+
+# Prayer times
+somodate prayer                  # Today's prayer times
+somodate prayer 2025-12-25       # Prayer times for specific date
+
+# Calendar conversion
+somodate convert-hijri           # Convert today to Hijri
+
+# Enhanced relative dates
+somodate relative-detailed       # Detailed relative formatting
+```
+
+### CLI Examples
 
 ```bash
 $ somodate today
 Sabti, 9 Agoosto 2025
 
-$ somodate today hijri
-Sabti, 14 Safar 1447
+$ somodate traditional
+9 Agoosto 2025 - Xagaa (Hot dry season)
 
-$ somodate now both
-Sabti, 9 Agoosto 2025 — (14 Safar 1447 Hijri) 18:30
+$ somodate numbers 25
+shan iyo labaatan
 
-$ somodate date 2025-12-25 islamic
-Khamiis, 5 Rajab 1447
+$ somodate age 1990-01-01
+35 sannadood iyo 7 bilood
+
+$ somodate prayer
+Waqtiyada salaadda 9 Agoosto 2025:
+  Subax: 05:30
+  Duhur: 12:15
+  Casar: 15:45
+  Maghrib: 18:30
+  Cisha: 19:45
+
+$ somodate holiday 2025-06-26
+26 Juun 2025 - Maalinta Madaxbannida
+
+$ somodate somali-numbers
+Sabti, sagaal Agoosto laba kun iyo shan iyo labaatan
 ```
 
 ## Somali Calendar Names
@@ -239,6 +368,21 @@ MIT License - see LICENSE file for details.
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Changelog
+
+### v0.2.0 - Comprehensive Feature Release
+- 🎭 **Traditional Somali Calendar**: Seasonal calendar with Jilaal, Gu, Xagaa, Dayr
+- 🔢 **Somali Number System**: Convert numbers to Somali words (numberToSomali)
+- 🎉 **Holiday Detection**: Somali national holidays and Islamic holidays
+- 💼 **Business Day Calculations**: Respect Somali work week (Friday off)
+- ⏳ **Duration & Age Formatting**: Format time periods and ages in Somali
+- 🕐 **Prayer Times**: Islamic prayer times with Somali names
+- 📅 **Date Range Formatting**: Format date ranges in multiple calendars
+- 🔄 **Calendar Conversion**: Convert between Gregorian and Hijri
+- 📝 **Enhanced Relative Dates**: Detailed relative time formatting
+- 🔢 **Somali Numerals in Dates**: Display dates with Somali number words
+- 📱 **Expanded CLI**: 15+ new commands for all features
+- 📝 **Complete TypeScript**: Full type definitions for all new features
+- ✅ **Comprehensive Tests**: 23 test cases covering all functionality
 
 ### v0.1.0
 - Initial release
